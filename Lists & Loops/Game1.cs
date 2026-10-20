@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace Lists___Loops
 {
@@ -22,8 +21,12 @@ namespace Lists___Loops
 
         float seconds;
         float respawnTime;
-      
-     
+
+        MouseState mouseState;
+        
+
+
+
 
         public Game1()
         {
@@ -85,7 +88,7 @@ namespace Lists___Loops
                 planetTextures.Add(textures[generator.Next(textures.Count)]);
             }
 
-            
+
         }
 
 
@@ -98,9 +101,34 @@ namespace Lists___Loops
 
             // TODO: Add your update logic here
 
+            mouseState = Mouse.GetState();
+            
+
             seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            if (seconds > respawnTime)
+            {
+                // Code to add a random texture to planetTextures
+                // Code to add a Rectangle to planetRects
+                seconds = 0f; // Restarts timer
+            }
 
+            if (mouseState.LeftButton == ButtonState.Pressed || mouseState.LeftButton == ButtonState.Released)
+            {
+                for (int i = 0; i < planetRects.Count; i++)
+                {
+                    if (planetRects[i].Contains(mouseState.Position))
+                    {
+                        planetRects.RemoveAt(i);
+                        planetTextures.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+
+           
+
+         
 
             base.Update(gameTime);
         }
